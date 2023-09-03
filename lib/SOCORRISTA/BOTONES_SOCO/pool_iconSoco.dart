@@ -12,7 +12,6 @@ class PoolScreen_soco extends StatefulWidget {
 class _PoolScreen_socoState extends State<PoolScreen_soco> {
   int contador = 0; // Variable para mantener el contador
   bool checkPresionado = false; // Variable para controlar el estado del emoji de check
-  bool camposCompletos = false; // Variable para controlar si todos los campos están completos
   bool enviado = false; // Variable para controlar si se ha enviado
 
   // Controladores para los campos de texto de los contenedores grises
@@ -62,7 +61,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
             'Agua renovada'
           ]),
           SizedBox(height: 10.0),
-          _buildButton(),
+          _buildButtonsRow(),
           SizedBox(height: 10.0),
           _buildCounterField(),
         ],
@@ -178,7 +177,6 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
               style: TextStyle(fontSize: 12.0),
               onChanged: (value) {
                 // Verificar si todos los campos están llenos
-                camposCompletos = camposLlenos();
                 setState(() {});
               },
               decoration: InputDecoration(
@@ -194,32 +192,59 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
     );
   }
 
-  bool camposLlenos() {
-    // Verificar si todos los campos de texto están llenos
-    return fechaController.text.isNotEmpty &&
-        horaController.text.isNotEmpty &&
-        phController.text.isNotEmpty &&
-        cloroLibreController.text.isNotEmpty &&
-        cloroCombinadoController.text.isNotEmpty &&
-        cloroResidualController.text.isNotEmpty &&
-        aguaDepuradaController.text.isNotEmpty &&
-        aguaRenovadaController.text.isNotEmpty;
-  }
-
-  Widget _buildButton() {
-    return ElevatedButton(
-      onPressed: () {
-        if (camposCompletos) {
-          setState(() {
-            enviado = true; // Cambiar el estado a "Enviado" solo si no ha sido enviado previamente
-          });
-        }
-      },
-      style: ElevatedButton.styleFrom(
-        primary: enviado ? Colors.green : Color.fromARGB(255, 255, 0, 0), // Cambiar el color del botón a verde cuando se envía
-        onPrimary: Colors.white, // Color de texto blanco
-      ),
-      child: Text(enviado ? 'Enviado' : 'Enviar'), // Cambiar el texto del botón a "Enviado" cuando se envía
+  Widget _buildButtonsRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            // Función para limpiar los datos, puedes implementarla según tus necesidades
+            // Por ejemplo, aquí se borran los datos de los controladores de texto
+            fechaController.clear();
+            horaController.clear();
+            phController.clear();
+            cloroLibreController.clear();
+            cloroCombinadoController.clear();
+            cloroResidualController.clear();
+            aguaDepuradaController.clear();
+            aguaRenovadaController.clear();
+            // También puedes resetear otras variables según tus requerimientos
+            setState(() {
+              // contador = 0;
+              // checkPresionado = false;
+              // camposCompletos = false;
+              enviado = false;
+            });
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.transparent, // Fondo transparente
+            onPrimary: Colors.black, // Color de texto negro
+            elevation: 0, // Sin elevación
+          ),
+          child: Text(
+            'Limpiar datos',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(width: 10.0), // Espacio entre los botones
+        ElevatedButton(
+          onPressed: () {
+            if (camposCompletos()) { // Verificar si todos los campos están llenos
+              setState(() {
+                enviado = true; // Cambiar el estado a "Enviado" solo si no ha sido enviado previamente
+              });
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            primary: enviado ? Colors.green : Color.fromARGB(255, 255, 0, 0), // Cambiar el color del botón a verde cuando se envía
+            onPrimary: Colors.white, // Color de texto blanco
+            elevation: 0, // Sin elevación
+          ),
+          child: Text(enviado ? 'Enviado' : 'Enviar'), // Cambiar el texto del botón a "Enviado" cuando se envía
+        ),
+      ],
     );
   }
 
@@ -243,7 +268,6 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
                 setState(() {
                   contador--; // Decrementar el contador
                   checkPresionado = false; // Resetear el estado del emoji de check a rojo
-                  enviado = false; // Volver a "Enviar" si se modifica el contador
                 });
               },
               child: Text(
@@ -270,11 +294,10 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
                 setState(() {
                   contador++; // Incrementar el contador
                   checkPresionado = false; // Resetear el estado del emoji de check a rojo
-                  enviado = false; // Volver a "Enviar" si se modifica el contador
                 });
               },
               child: Text(
-                '>',
+                '>', // Emoji de incremento
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -304,5 +327,17 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
         SizedBox(height: 10.0),
       ],
     );
+  }
+
+  bool camposCompletos() {
+    // Verificar si todos los campos de texto están llenos
+    return fechaController.text.isNotEmpty &&
+        horaController.text.isNotEmpty &&
+        phController.text.isNotEmpty &&
+        cloroLibreController.text.isNotEmpty &&
+        cloroCombinadoController.text.isNotEmpty &&
+        cloroResidualController.text.isNotEmpty &&
+        aguaDepuradaController.text.isNotEmpty &&
+        aguaRenovadaController.text.isNotEmpty;
   }
 }
