@@ -16,7 +16,7 @@ class _PoolScreenState extends State<PoolScreen> {
     "Recuerda hidratarte",
     "No dejes nunca a tus hijos sin la supervisión de un adulto",
     "Si tienes alguna duda, pregunta al socorrista",
-    "La piscina es un espacio de disfrute, respeta a los demas :)"
+    "La piscina es un espacio de disfrute, respeta a los demás :)"
   ];
 
   late int _currentIndex = 0;
@@ -28,6 +28,7 @@ class _PoolScreenState extends State<PoolScreen> {
     setState(() {
       if (_guestCount < 10) {
         _guestCount++;
+        _isSent = false; // Volver a estado inicial (rojo) cuando se cambia el contador
       }
     });
   }
@@ -36,6 +37,7 @@ class _PoolScreenState extends State<PoolScreen> {
     setState(() {
       if (_guestCount > 0) {
         _guestCount--;
+        _isSent = false; // Volver a estado inicial (rojo) cuando se cambia el contador
       }
     });
   }
@@ -78,8 +80,8 @@ class _PoolScreenState extends State<PoolScreen> {
             ),
           ),
         ),
-      
-        SizedBox(height: 50), // Espacio entre el carrusel y el nuevo texto
+
+        SizedBox(height: 50), // Reducida la distancia entre el carrusel y el nuevo texto
 
         // Nuevo texto y contador
         Center(
@@ -114,16 +116,16 @@ class _PoolScreenState extends State<PoolScreen> {
                 ],
               ),
 
-              SizedBox(height: 5),   //BOTON ENVIAR
+              SizedBox(height: 5), //BOTON ENVIAR
               ElevatedButton(
                 onPressed: () {
                   setState(() {
                     // Cambia el estado del botón cuando se presiona
-                    _isSent = true;
+                    _isSent = !_isSent;
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green, // Establece el color de fondo en verde
+                  backgroundColor: _isSent ? Colors.green : Colors.red, // Cambia el color
                   minimumSize: Size(100, 40), // Establece el tamaño mínimo del botón
                 ),
                 child: Text(
@@ -138,7 +140,7 @@ class _PoolScreenState extends State<PoolScreen> {
             ],
           ),
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 10), // Espacio entre el contador y el carrusel
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -158,43 +160,37 @@ class _PoolScreenState extends State<PoolScreen> {
               },
             ),
             SizedBox(width: 5),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.white),
+            Container(
+              width: MediaQuery.of(context).size.width - 100, // Ancho fijo
+              child: CarouselSlider.builder(
+                carouselController: _carouselController,
+                itemCount: messages.length,
+                options: CarouselOptions(
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 5),
+                  enlargeCenterPage: true,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                  enableInfiniteScroll: true,
                 ),
-                child: CarouselSlider.builder(
-                  carouselController: _carouselController,
-                  itemCount: messages.length,
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 5),
-                    enlargeCenterPage: true,
-                    aspectRatio: 5, // Reducido a la mitad
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                    enableInfiniteScroll: true,
-                  ),
-                  itemBuilder: (BuildContext context, int index, int realIndex) {
-                    return Center(
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Text(
-                          messages[index],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontStyle: FontStyle.italic,
-                          ),
+                itemBuilder: (BuildContext context, int index, int realIndex) {
+                  return Center(
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: Text(
+                        messages[index],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontStyle: FontStyle.italic,
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
             ),
             SizedBox(width: 5),

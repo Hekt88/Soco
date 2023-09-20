@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "824197507820",
+    "project_id": "kitpool-34338",
+    "storage_bucket": "kitpool-34338.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824197507820:android:74013623bc9a11643113c9",
+        "android_client_info": {
+          "package_name": "com.example.animated_bottom_app_bar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824197507820-u25fii71r2a0be5s41940uaq6bgfc2sa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPLkohBTdQwhuQUhUpFD3F6MID0S_U6ZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824197507820-u25fii71r2a0be5s41940uaq6bgfc2sa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
