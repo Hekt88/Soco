@@ -92,13 +92,13 @@ class _HomePageSocoState extends State<HomePageSoco> with TickerProviderStateMix
 
     switch (selected) {
       case 0:
-        selectedScreen = const UserScreen_soco(message: 'hola',);
+        selectedScreen = const UserScreen_soco(message: '',);
         break;
       case 1:
         selectedScreen = const PoolScreen_soco(message: '',);
         break;
       case 2:
-        selectedScreen = const FolderScreen_soco(message: 'heheh siuuu',);
+        selectedScreen = const FolderScreen_soco(message: '',);
         break;
       default:
         selectedScreen = Container(); // Widget por defecto
