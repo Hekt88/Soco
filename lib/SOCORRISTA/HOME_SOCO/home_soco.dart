@@ -24,9 +24,9 @@ class _HomePageSocoState extends State<HomePageSoco> with TickerProviderStateMix
   ];
 
   List<Color> colors = [
-    Color.fromARGB(255, 129, 206, 231), // Azul claro
-    Color.fromARGB(255, 105, 196, 253), // Azul claro más oscuro
-    Color.fromARGB(255, 61, 160, 241),  // Azul claro más oscuro
+    const Color.fromARGB(255, 129, 206, 231), // Azul claro
+    const Color.fromARGB(255, 105, 196, 253), // Azul claro más oscuro
+    const Color.fromARGB(255, 61, 160, 241),  // Azul claro más oscuro
   ];
 
   late double position;
@@ -92,13 +92,13 @@ class _HomePageSocoState extends State<HomePageSoco> with TickerProviderStateMix
 
     switch (selected) {
       case 0:
-        selectedScreen = UserScreen_soco(message: 'hola',);
+        selectedScreen = const UserScreen_soco(message: 'hola',);
         break;
       case 1:
-        selectedScreen = PoolScreen_soco(message: '',);
+        selectedScreen = const PoolScreen_soco(message: '',);
         break;
       case 2:
-        selectedScreen = FolderScreen_soco(message: 'heheh siuuu',);
+        selectedScreen = const FolderScreen_soco(message: 'heheh siuuu',);
         break;
       default:
         selectedScreen = Container(); // Widget por defecto
@@ -191,7 +191,7 @@ class _HomePageSocoState extends State<HomePageSoco> with TickerProviderStateMix
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 30.0), // Ajusta el espaciado si es necesario
+              padding: const EdgeInsets.only(bottom: 30.0), // Ajusta el espaciado si es necesario
               child: selectedScreen, // Mostrar el widget seleccionado
             ),
           ),

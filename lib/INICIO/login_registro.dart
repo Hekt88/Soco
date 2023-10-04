@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:animated_bottom_app_bar/INICIO/registro.dart';
 import 'package:animated_bottom_app_bar/SOCORRISTA/login_soco.dart';
 import 'package:animated_bottom_app_bar/USER/HOME_USER/home_user.dart';
-import 'package:flutter/material.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key});
@@ -11,7 +12,71 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
+  bool _isButtonEnabled = false;
+
+  void _signInWithFirebase() async {
+    try {
+      final String username = _usernameController.text.trim();
+      final String password = _passwordController.text;
+
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: username, // Usamos el campo de usuario como email
+        password: password,
+      );
+
+      if (userCredential.user != null) {
+        // Las credenciales son válidas, puedes navegar a la siguiente pantalla.
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MyHomePage(),
+          ),
+        );
+      } else {
+        // El usuario no se autenticó correctamente, muestra un mensaje de error.
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error de inicio de sesión: Usuario no válido'),
+          ),
+        );
+      }
+    } catch (e) {
+      // Ocurrió un error durante la autenticación, muestra un mensaje de error.
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error de inicio de sesión: $e'),
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Agregamos controladores de texto para los campos de usuario y contraseña
+    _usernameController.addListener(_checkButtonStatus);
+    _passwordController.addListener(_checkButtonStatus);
+  }
+
+  @override
+  void dispose() {
+    // Liberamos los controladores de texto cuando no se necesiten
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  // Esta función verifica si ambos campos están llenos y habilita/deshabilita el botón
+  void _checkButtonStatus() {
+    setState(() {
+      _isButtonEnabled = _usernameController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +99,13 @@ class _LoginPageState extends State<LoginPage> {
             _buildTextFieldContainer(
               labelText: 'Nombre de Usuario',
               icon: Icons.person,
+              controller: _usernameController,
             ),
             const SizedBox(height: 10),
             _buildPasswordFieldContainer(
               labelText: 'Contraseña',
               icon: Icons.lock,
+              controller: _passwordController,
               obscureText: _obscureText,
               toggleVisibility: () {
                 setState(() {
@@ -48,14 +115,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MyHomePage(),
-                  ),
-                );
-              },
+              onPressed: _isButtonEnabled ? _signInWithFirebase : null, // Deshabilita el botón si no hay datos
               icon: Icon(
                 Icons.login,
                 color: Colors.white,
@@ -71,7 +131,12 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 20), // Espacio entre botones
             ElevatedButton.icon(
               onPressed: () {
-                // Lógica para el botón "Registrarse"
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RegistrationScreen(),
+                  ),
+                );
               },
               icon: Icon(
                 Icons.person_add,
@@ -88,7 +153,6 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 20), // Espacio entre botones
             ElevatedButton.icon(
               onPressed: () {
-                // Lógica para el acceso del socorrista
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -121,6 +185,7 @@ class _LoginPageState extends State<LoginPage> {
     required String labelText,
     required IconData icon,
     bool obscureText = false,
+    required TextEditingController controller,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -136,6 +201,7 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(width: 10),
           Expanded(
             child: TextFormField(
+              controller: controller,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 labelText: labelText,
@@ -152,6 +218,7 @@ class _LoginPageState extends State<LoginPage> {
     required String labelText,
     required IconData icon,
     required bool obscureText,
+    required TextEditingController controller,
     required VoidCallback toggleVisibility,
   }) {
     return Container(
@@ -168,6 +235,7 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(width: 10),
           Expanded(
             child: TextFormField(
+              controller: controller,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 labelText: labelText,

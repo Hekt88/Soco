@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PoolScreen_soco extends StatefulWidget {
   final String message;
 
-  PoolScreen_soco({required this.message});
+  const PoolScreen_soco({super.key, required this.message});
 
   @override
   _PoolScreen_socoState createState() => _PoolScreen_socoState();
@@ -45,11 +45,11 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 5.0),
+          const SizedBox(height: 5.0),
           _buildTitle(),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           _buildSubtitle(),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           _buildDataGrid([
             'Fecha',
             'Hora',
@@ -60,9 +60,9 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
             'Agua depurada',
             'Agua renovada'
           ]),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           _buildButtonsRow(),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           _buildCounterField(),
         ],
       ),
@@ -70,7 +70,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
   }
 
   Widget _buildTitle() {
-    return Text(
+    return const Text(
       'Bienvenido Socorrista',
       style: TextStyle(
         fontSize: 32.0,
@@ -80,7 +80,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
   }
 
   Widget _buildSubtitle() {
-    return Text(
+    return const Text(
       'Libro Registro',
       style: TextStyle(
         fontSize: 16.0,
@@ -97,7 +97,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildTextContainer(texts[i], i),
-              SizedBox(width: 3.0),
+              const SizedBox(width: 3.0),
               _buildTextContainer(texts[i + 1], i + 1),
             ],
           ),
@@ -153,8 +153,8 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
     return Container(
       width: 160.0,
       height: 60.0,
-      margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 3.0),
-      padding: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 3.0),
+      padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black),
         borderRadius: BorderRadius.circular(10.0),
@@ -165,25 +165,25 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
         children: [
           Text(
             hintText,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 0),
+          const SizedBox(height: 0),
           Expanded(
             child: TextField(
               controller: controller,
-              style: TextStyle(fontSize: 12.0),
+              style: const TextStyle(fontSize: 12.0),
               onChanged: (value) {
                 // Verificar si todos los campos están llenos
                 setState(() {});
               },
               decoration: InputDecoration(
                 hintText: hintText != 'Aforo' ? 'Insertar $hintText' : 'Introduce Aforo',
-                hintStyle: TextStyle(fontSize: 12.0),
+                hintStyle: const TextStyle(fontSize: 12.0),
                 border: InputBorder.none,
-                contentPadding: EdgeInsets.fromLTRB(4.0, -4.0, 4.0, 4.0),
+                contentPadding: const EdgeInsets.fromLTRB(4.0, -4.0, 4.0, 4.0),
               ),
             ),
           ),
@@ -217,18 +217,17 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
             });
           },
           style: ElevatedButton.styleFrom(
-            primary: Colors.transparent, // Fondo transparente
-            onPrimary: Colors.black, // Color de texto negro
+            foregroundColor: Colors.black, backgroundColor: Colors.transparent, // Color de texto negro
             elevation: 0, // Sin elevación
           ),
-          child: Text(
+          child: const Text(
             'Limpiar datos',
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        SizedBox(width: 10.0), // Espacio entre los botones
+        const SizedBox(width: 10.0), // Espacio entre los botones
         ElevatedButton(
           onPressed: () {
             if (camposCompletos()) { // Verificar si todos los campos están llenos
@@ -238,8 +237,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
             }
           },
           style: ElevatedButton.styleFrom(
-            primary: enviado ? Colors.green : Color.fromARGB(255, 255, 0, 0), // Cambiar el color del botón a verde cuando se envía
-            onPrimary: Colors.white, // Color de texto blanco
+            foregroundColor: Colors.white, backgroundColor: enviado ? Colors.green : const Color.fromARGB(255, 255, 0, 0), // Color de texto blanco
             elevation: 0, // Sin elevación
           ),
           child: Text(enviado ? 'Enviado' : 'Enviar'), // Cambiar el texto del botón a "Enviado" cuando se envía
@@ -254,7 +252,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Aforo: ',
               style: TextStyle(
                 fontSize: 16.0,
@@ -262,7 +260,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
                 color: Colors.black, // Color negro
               ),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -270,7 +268,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
                   checkPresionado = false; // Resetear el estado del emoji de check a rojo
                 });
               },
-              child: Text(
+              child: const Text(
                 '<',
                 style: TextStyle(
                   fontSize: 24.0,
@@ -279,16 +277,16 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
                 ),
               ),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Text(
               contador.toString(), // Mostrar el contador actual
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.black, // Color negro
               ),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -296,7 +294,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
                   checkPresionado = false; // Resetear el estado del emoji de check a rojo
                 });
               },
-              child: Text(
+              child: const Text(
                 '>', // Emoji de incremento
                 style: TextStyle(
                   fontSize: 24.0,
@@ -305,7 +303,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
                 ),
               ),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -324,7 +322,7 @@ class _PoolScreen_socoState extends State<PoolScreen_soco> {
             ),
           ],
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
       ],
     );
   }

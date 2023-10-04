@@ -23,9 +23,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   ];
 
   List<Color> colors = [
-    Color.fromARGB(255, 129, 206, 231), // Azul claro
-  Color.fromARGB(255, 105, 196, 253), // Azul claro más oscuro
-  Color.fromARGB(255, 61, 160, 241),  // Azul claro más oscuro
+    const Color.fromARGB(255, 129, 206, 231), // Azul claro
+  const Color.fromARGB(255, 105, 196, 253), // Azul claro más oscuro
+  const Color.fromARGB(255, 61, 160, 241),  // Azul claro más oscuro
   ];
 
   late double position;
@@ -91,13 +91,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
     switch (selected) {
       case 0:
-        selectedScreen = UserScreen(message: 'hola',);
+        selectedScreen = const UserScreen(message: 'hola',);
         break;
       case 1:
-        selectedScreen = PoolScreen(message: 'adios',);
+        selectedScreen = const PoolScreen(message: 'adios',);
         break;
       case 2:
-        selectedScreen = FolderScreen(message: 'heheh siuuu',);
+        selectedScreen = const FolderScreen(message: 'heheh siuuu',);
         break;
       default:
         selectedScreen = Container(); // Widget por defecto
@@ -190,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 30.0), // Ajusta el espaciado si es necesario
+              padding: const EdgeInsets.only(bottom: 30.0), // Ajusta el espaciado si es necesario
               child: selectedScreen, // Mostrar el widget seleccionado
             ),
           ),

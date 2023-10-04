@@ -1,30 +1,48 @@
-import 'package:animated_bottom_app_bar/SOCORRISTA/HOME_SOCO/home_soco.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class ZonaSocorristaPage extends StatefulWidget {
-  const ZonaSocorristaPage({super.key});
+class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({Key? key}) : super(key: key);
 
   @override
-  _ZonaSocorristaPageState createState() => _ZonaSocorristaPageState();
+  _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
-class _ZonaSocorristaPageState extends State<ZonaSocorristaPage> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  String _username = '';
+  String _email = '';
+  String _password = '';
   bool _obscureText = true;
+
+  bool _validateFields() {
+    if (_username.isEmpty || _email.isEmpty || _password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, complete todos los campos.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Zona Socorrista"),
-      ),
+      appBar: AppBar(),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 30),
+            const SizedBox(height: 50),
             const Text(
-              'Inicio de Sesión',
+              'Registrarse',
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
@@ -34,12 +52,32 @@ class _ZonaSocorristaPageState extends State<ZonaSocorristaPage> {
             _buildTextFieldContainer(
               labelText: 'Nombre de Usuario',
               icon: Icons.person,
+              onChanged: (value) {
+                setState(() {
+                  _username = value;
+                });
+              },
+            ),
+            const SizedBox(height: 10),
+            _buildTextFieldContainer(
+              labelText: 'Correo Electrónico',
+              icon: Icons.email,
+              onChanged: (value) {
+                setState(() {
+                  _email = value;
+                });
+              },
             ),
             const SizedBox(height: 10),
             _buildPasswordFieldContainer(
               labelText: 'Contraseña',
               icon: Icons.lock,
               obscureText: _obscureText,
+              onChanged: (value) {
+                setState(() {
+                  _password = value;
+                });
+              },
               toggleVisibility: () {
                 setState(() {
                   _obscureText = !_obscureText;
@@ -47,22 +85,45 @@ class _ZonaSocorristaPageState extends State<ZonaSocorristaPage> {
               },
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Lógica para el inicio de sesión del socorrista
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePageSoco(),
-                  ),
-                );
+            ElevatedButton.icon(
+              onPressed: () async {
+                if (_validateFields()) {
+                  try {
+                    final UserCredential userCredential =
+                        await _auth.createUserWithEmailAndPassword(
+                      email: _email,
+                      password: _password,
+                    );
+
+                    final String userId = userCredential.user?.uid ?? '';
+
+                    await _firestore.collection('users').doc(userId).set({
+                      'username': _username,
+                      'email': _email,
+                    });
+
+                    Navigator.pop(context); // Cierra la pantalla de registro
+                  } catch (e) {
+                    print('Error al registrar al usuario: $e');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Error al registrar al usuario.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                }
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+              icon: const Icon(
+                Icons.person_add,
+                color: Colors.white,
               ),
-              child: const Text(
-                'Iniciar Sesión',
+              label: const Text(
+                'Registrarse',
                 style: TextStyle(color: Colors.white),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
               ),
             ),
           ],
@@ -74,7 +135,7 @@ class _ZonaSocorristaPageState extends State<ZonaSocorristaPage> {
   Widget _buildTextFieldContainer({
     required String labelText,
     required IconData icon,
-    bool obscureText = false,
+    required ValueChanged<String> onChanged,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -94,7 +155,7 @@ class _ZonaSocorristaPageState extends State<ZonaSocorristaPage> {
                 border: InputBorder.none,
                 labelText: labelText,
               ),
-              obscureText: obscureText,
+              onChanged: onChanged,
             ),
           ),
         ],
@@ -106,6 +167,7 @@ class _ZonaSocorristaPageState extends State<ZonaSocorristaPage> {
     required String labelText,
     required IconData icon,
     required bool obscureText,
+    required ValueChanged<String> onChanged,
     required VoidCallback toggleVisibility,
   }) {
     return Container(
@@ -133,6 +195,7 @@ class _ZonaSocorristaPageState extends State<ZonaSocorristaPage> {
                 ),
               ),
               obscureText: obscureText,
+              onChanged: onChanged,
             ),
           ),
         ],

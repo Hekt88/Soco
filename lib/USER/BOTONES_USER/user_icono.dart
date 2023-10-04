@@ -4,7 +4,7 @@ import '../../INICIO/login_registro.dart'; // Importa el archivo de la página d
 class UserScreen extends StatelessWidget {
   final String message;
 
-  UserScreen({required this.message});
+  const UserScreen({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -13,17 +13,17 @@ class UserScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(message),
-          SizedBox(height: 20), // Espacio entre el texto y el botón
+          const SizedBox(height: 20), // Espacio entre el texto y el botón
           ElevatedButton(
             onPressed: () {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => LoginPage(),
+                  builder: (context) => const LoginPage(),
                 ),
               );
             },
-            child: Text('Volver'),
+            child: const Text('Volver'),
           ),
           // Agrega aquí otros widgets específicos para el estado de usuario
         ],

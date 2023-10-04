@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class FolderScreen extends StatelessWidget {
   final String message;
 
-  FolderScreen({required this.message});
+  const FolderScreen({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 class UserScreen_soco extends StatelessWidget {
   final String message;
 
-  UserScreen_soco({required this.message});
+  const UserScreen_soco({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

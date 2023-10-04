@@ -4,7 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 class PoolScreen extends StatefulWidget {
   final String message;
 
-  PoolScreen({required this.message});
+  const PoolScreen({super.key, required this.message});
 
   @override
   _PoolScreenState createState() => _PoolScreenState();
@@ -47,10 +47,10 @@ class _PoolScreenState extends State<PoolScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Container(
-          margin: EdgeInsets.only(left: 20),
-          child: Text(
+          margin: const EdgeInsets.only(left: 20),
+          child: const Text(
             "Bienvenido Héctor",
             style: TextStyle(
               fontSize: 40,
@@ -58,10 +58,10 @@ class _PoolScreenState extends State<PoolScreen> {
             ),
           ),
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         Container(
-          margin: EdgeInsets.only(left: 20),
-          child: Text(
+          margin: const EdgeInsets.only(left: 20),
+          child: const Text(
             "El cloro es de 1.5 y el pH del agua es de 7.",
             style: TextStyle(
               fontSize: 16,
@@ -69,10 +69,10 @@ class _PoolScreenState extends State<PoolScreen> {
             ),
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Container(
-          margin: EdgeInsets.only(left: 20),
-          child: Text(
+          margin: const EdgeInsets.only(left: 20),
+          child: const Text(
             "El aforo actual de la piscina es de 5 personas.",
             style: TextStyle(
               fontSize: 16,
@@ -81,42 +81,42 @@ class _PoolScreenState extends State<PoolScreen> {
           ),
         ),
 
-        SizedBox(height: 50), // Reducida la distancia entre el carrusel y el nuevo texto
+        const SizedBox(height: 50), // Reducida la distancia entre el carrusel y el nuevo texto
 
         // Nuevo texto y contador
         Center(
           child: Column(
             children: [
-              Text(
+              const Text(
                 "¿Has traído acompañantes? ¿Cuántos?",
                 style: TextStyle(
                   fontSize: 16,
                   fontStyle: FontStyle.italic,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.remove, color: Colors.white),
+                    icon: const Icon(Icons.remove, color: Colors.white),
                     onPressed: _decrementGuestCount,
                   ),
                   Text(
                     "$_guestCount",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.add, color: Colors.white),
+                    icon: const Icon(Icons.add, color: Colors.white),
                     onPressed: _incrementGuestCount,
                   ),
                 ],
               ),
 
-              SizedBox(height: 5), //BOTON ENVIAR
+              const SizedBox(height: 5), //BOTON ENVIAR
               ElevatedButton(
                 onPressed: () {
                   setState(() {
@@ -126,11 +126,11 @@ class _PoolScreenState extends State<PoolScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _isSent ? Colors.green : Colors.red, // Cambia el color
-                  minimumSize: Size(100, 40), // Establece el tamaño mínimo del botón
+                  minimumSize: const Size(100, 40), // Establece el tamaño mínimo del botón
                 ),
                 child: Text(
                   _isSent ? "Enviado" : "Enviar", // Cambia el texto según el estado
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -140,13 +140,13 @@ class _PoolScreenState extends State<PoolScreen> {
             ],
           ),
         ),
-        SizedBox(height: 10), // Espacio entre el contador y el carrusel
+        const SizedBox(height: 10), // Espacio entre el contador y el carrusel
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
               onPressed: () {
                 setState(() {
                   if (_currentIndex > 0) {
@@ -159,15 +159,15 @@ class _PoolScreenState extends State<PoolScreen> {
                 });
               },
             ),
-            SizedBox(width: 5),
-            Container(
+            const SizedBox(width: 5),
+            SizedBox(
               width: MediaQuery.of(context).size.width - 100, // Ancho fijo
               child: CarouselSlider.builder(
                 carouselController: _carouselController,
                 itemCount: messages.length,
                 options: CarouselOptions(
                   autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 5),
+                  autoPlayInterval: const Duration(seconds: 5),
                   enlargeCenterPage: true,
                   onPageChanged: (index, reason) {
                     setState(() {
@@ -179,11 +179,11 @@ class _PoolScreenState extends State<PoolScreen> {
                 itemBuilder: (BuildContext context, int index, int realIndex) {
                   return Center(
                     child: Container(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child: Text(
                         messages[index],
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontStyle: FontStyle.italic,
                         ),
@@ -193,9 +193,9 @@ class _PoolScreenState extends State<PoolScreen> {
                 },
               ),
             ),
-            SizedBox(width: 5),
+            const SizedBox(width: 5),
             IconButton(
-              icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+              icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
               onPressed: () {
                 setState(() {
                   if (_currentIndex < messages.length - 1) {
