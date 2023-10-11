@@ -24,7 +24,7 @@ class _HomePageSocoState extends State<HomePageSoco> with TickerProviderStateMix
   ];
 
   List<Color> colors = [
-    const Color.fromARGB(255, 129, 206, 231), // Azul claro
+    Color.fromARGB(255, 119, 166, 247), // Azul claro
     const Color.fromARGB(255, 105, 196, 253), // Azul claro más oscuro
     const Color.fromARGB(255, 61, 160, 241),  // Azul claro más oscuro
   ];
